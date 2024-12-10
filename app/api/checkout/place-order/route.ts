@@ -5,12 +5,24 @@ import { getSession } from "@/lib/utils";
 /**
  * @route POST /api/checkout/place-order
  * @desc Confirm and place the order
- * @body { discountCodeId: Int, discountCode: string }
+ * @body { discountCodeId?: Int, discountCode?: string }
  * @returns Order details
  */
 export async function POST(req: NextRequest) {
 	try {
-		const { discountCodeId, discountCode } = await req.json();
+		let body: {
+			discountCodeId?: number;
+			discountCode?: string;
+		} = {};
+		try {
+			body = await req.json();
+		} catch {
+			console.log("No request body. Moving ahead...");
+		}
+
+		const { discountCodeId = null, discountCode = null } = body;
+
+		console.log("Received discount data:", { discountCodeId, discountCode });
 
 		const session = await getSession();
 
@@ -71,6 +83,20 @@ export async function POST(req: NextRequest) {
 
 		// Validate and apply discount code if provided
 		if (discountCodeId && discountCode) {
+			// Though we won't show apply button, but if somehow user forcefully tries to apply a discount code we handle it here
+			const orderCount = await prisma.order.count({
+				where: { userId: user.id },
+			});
+			const milestone = 5; // Could make this dynamic
+			if ((orderCount + 1) % milestone !== 0) {
+				return NextResponse.json(
+					{
+						error: `You do not meet the nth order condition.`,
+					},
+					{ status: 400 }
+				);
+			}
+
 			const validDiscountCode = await prisma.discountCode.findFirst({
 				where: {
 					id: discountCodeId,
@@ -104,7 +130,8 @@ export async function POST(req: NextRequest) {
 		const order = await prisma.order.create({
 			data: {
 				sessionId: session.id,
-				totalAmount: finalTotal,
+				totalPurchaseAmount: finalTotal,
+				totalItemsPurchased: cartItems.length,
 				discountAmountApplied: discountAmountApplied,
 				discountCodeId: discountCodeId ? discountCodeId : null,
 				userId: user.id,

@@ -43,6 +43,18 @@ export async function POST(req: NextRequest) {
 				{ status: 401 }
 			);
 
+		// Though we won't show apply button, but if somehow user forcefully tries to apply a discount code we handle it here
+		const orderCount = await prisma.order.count({ where: { userId: user.id } });
+		const milestone = 5; // Could make this dynamic
+		if ((orderCount + 1) % milestone !== 0) {
+			return NextResponse.json(
+				{
+					error: `You do not meet the nth order condition.`,
+				},
+				{ status: 400 }
+			);
+		}
+
 		// Validate discount code
 		const validDiscountCode = await prisma.discountCode.findFirst({
 			where: {
