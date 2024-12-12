@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import prisma from "@/lib/prisma";
-import { getSession } from "@/lib/utils";
+import { getSession } from "../utils";
 
 /**
  * @route GET /api/cart
@@ -9,7 +9,7 @@ import { getSession } from "@/lib/utils";
  */
 export async function GET(req: NextRequest) {
 	try {
-		const session = await getSession();
+		const session = await getSession(req);
 
 		if (!session?.id) {
 			return NextResponse.json({ error: "Session expired!" }, { status: 401 });
@@ -80,7 +80,7 @@ export async function POST(req: NextRequest) {
 			);
 		}
 
-		const session = await getSession();
+		const session = await getSession(req);
 
 		// Check if the session is valid
 		if (!session?.id) {
@@ -159,7 +159,7 @@ export async function DELETE(req: NextRequest) {
 			);
 		}
 
-		const session = await getSession();
+		const session = await getSession(req);
 
 		if (!session?.id) {
 			return NextResponse.json({ error: "Session expired!" }, { status: 401 });

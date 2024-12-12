@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import prisma from "@/lib/prisma";
-import { getSession } from "@/lib/utils";
+import { getSession } from "../../utils";
 
 /**
  * @route POST /api/checkout/apply-discount
@@ -12,7 +12,7 @@ export async function POST(req: NextRequest) {
 	try {
 		const { discountCodeId, discountCode } = await req.json();
 
-		const session = await getSession();
+		const session = await getSession(req);
 
 		if (!session?.id) {
 			return NextResponse.json({ error: "Session expired!" }, { status: 401 });

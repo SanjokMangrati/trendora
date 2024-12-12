@@ -1,6 +1,9 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
+import { Toaster } from "@/components/ui/toaster";
+import { fetchSession } from "@/lib/api/session";
+import { SessionProvider } from "@/lib/context/session.context";
 
 export const metadata: Metadata = {
   title: "TRENDORA",
@@ -12,6 +15,7 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+
   return (
     <html lang="en">
       <body
@@ -23,7 +27,10 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          {children}
+          <SessionProvider>
+            {children}
+          </SessionProvider>
+          <Toaster />
         </ThemeProvider>
       </body>
     </html>

@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import prisma from "@/lib/prisma";
-import { getSession } from "@/lib/utils";
+import { getSession } from "../utils";
 
 /**
  * @route GET /api/checkout
@@ -9,7 +9,7 @@ import { getSession } from "@/lib/utils";
  */
 export async function GET(req: NextRequest) {
 	try {
-		const session = await getSession();
+		const session = await getSession(req);
 
 		if (!session?.id) {
 			return NextResponse.json({ error: "Session expired!" }, { status: 401 });
@@ -35,7 +35,7 @@ export async function GET(req: NextRequest) {
 
 		// Retrieve all discount codes available to user
 		const discountCodes = await prisma.discountCode.findMany({
-			where: { userId: user.id },
+			where: { userId: user.id, used: false },
 		});
 
 		return NextResponse.json({
