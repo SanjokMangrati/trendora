@@ -5,7 +5,7 @@ import Content from './components/Content';
 import { CartProvider } from '@/lib/context/cart.context';
 
 export const metadata: Metadata = {
-    title: "Products | Trendora",
+    title: "Products | TRENDORA",
 };
 export default function Page() {
 

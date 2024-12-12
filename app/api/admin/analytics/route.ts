@@ -10,7 +10,12 @@ import { CustomJwtPayload } from "@/lib/types/jwt.types";
  */
 export async function GET(request: Request) {
 	try {
-		const token = request.headers.get("Authorization");
+		const cookieHeader = request.headers.get("cookie") || "";
+		const token = cookieHeader
+			.split(";")
+			.find((cookie) => cookie.trim().startsWith("token="))
+			?.split("=")[1];
+
 		if (!token) {
 			return NextResponse.json({ error: "Unauthorized" }, { status: 403 });
 		}

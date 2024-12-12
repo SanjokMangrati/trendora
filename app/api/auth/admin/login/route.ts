@@ -49,7 +49,15 @@ export async function POST(request: Request) {
 			}
 		);
 
-		return NextResponse.json({ success: true, token });
+		const response = NextResponse.json({ success: true });
+		response.headers.set(
+			"Set-Cookie",
+			`token=${token}; Path=/; HttpOnly; Secure; SameSite=Strict; Max-Age=${
+				15 * 24 * 60 * 60
+			}`
+		);
+
+		return response;
 	} catch (error) {
 		console.log(`Login error | ${error}`);
 		return NextResponse.json(
