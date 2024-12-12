@@ -1,13 +1,13 @@
-import AdminNav from "@/components/common/AdminNav";
-import { ThemeProvider } from "@/components/theme-provider";
-import { Toaster } from "@/components/ui/toaster";
-import { SessionProvider } from "@/lib/context/session.context";
-import { headers } from "next/headers";
-import "./globals.css"
+import AdminNav from '@/components/common/AdminNav';
+import { ThemeProvider } from '@/components/theme-provider';
+import { Toaster } from '@/components/ui/toaster';
+import { SessionProvider } from '@/lib/context/session.context';
+import { headers } from 'next/headers';
+import './globals.css';
 
 export const metadata = {
-  title: "TRENDORA",
-  description: "Next Gen E-commerce",
+  title: 'TRENDORA',
+  description: 'Next Gen E-commerce',
 };
 
 export default async function RootLayout({
@@ -16,8 +16,9 @@ export default async function RootLayout({
   children: React.ReactNode;
 }) {
   const headersList = await headers();
-  const pathname = headersList.get("x-pathname")
-  const isAdminLayout = pathname === "/admin/customers" || pathname === "/admin/analytics";
+  const pathname = headersList.get('x-pathname');
+  const isAdminLayout =
+    pathname === '/admin/customers' || pathname === '/admin/analytics';
 
   return (
     <html lang="en">
