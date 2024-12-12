@@ -20,6 +20,8 @@ export default async function RootLayout({
   const isAdminLayout =
     pathname === '/admin/customers' || pathname === '/admin/analytics';
 
+  console.log(pathname)
+
   return (
     <html lang="en">
       <body className="antialiased">
