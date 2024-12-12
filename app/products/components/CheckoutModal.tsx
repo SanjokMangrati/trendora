@@ -103,6 +103,7 @@ export function CheckoutModal({ isOpen, onClose, discountCodes }: CheckoutModalP
         setAppliedDiscountId(null);
         setFinalTotal(null);
         setAppliedDiscountPercentage(null);
+        setShowConfetti(false);
         onClose();
     };
 
