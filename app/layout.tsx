@@ -39,11 +39,13 @@ export default async function RootLayout({
               </header>
               <main className="flex-1 container py-6">{children}</main>
             </div>
-          ) : (
-            <SessionProvider>
+          ) :
+            pathname === '/admin/login' ? (
               <main>{children}</main>
-            </SessionProvider>
-          )}
+            ) : (<SessionProvider>
+              <main>{children}</main>
+            </SessionProvider>)
+          }
           <Toaster />
         </ThemeProvider>
       </body>
