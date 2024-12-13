@@ -30,20 +30,20 @@ export default async function RootLayout({
           defaultTheme="dark"
           disableTransitionOnChange
         >
-          <SessionProvider>
-            {isAdminLayout ? (
-              <div className="flex flex-col min-h-screen">
-                <header className="sticky top-0 z-40 border-b bg-background">
-                  <div className="container flex h-16 items-center space-x-4 sm:justify-between sm:space-x-0">
-                    <AdminNav />
-                  </div>
-                </header>
-                <main className="flex-1 container py-6">{children}</main>
-              </div>
-            ) : (
+          {isAdminLayout ? (
+            <div className="flex flex-col min-h-screen">
+              <header className="sticky top-0 z-40 border-b bg-background">
+                <div className="container flex h-16 items-center space-x-4 sm:justify-between sm:space-x-0">
+                  <AdminNav />
+                </div>
+              </header>
+              <main className="flex-1 container py-6">{children}</main>
+            </div>
+          ) : (
+            <SessionProvider>
               <main>{children}</main>
-            )}
-          </SessionProvider>
+            </SessionProvider>
+          )}
           <Toaster />
         </ThemeProvider>
       </body>

@@ -67,6 +67,7 @@ export function CustomersTable() {
       (sum, session) => sum + session.orders.length,
       0
     );
+    console.log(orderCount)
     return (orderCount + 1) % 5 === 0;
   };
 
