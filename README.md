@@ -11,8 +11,10 @@ Trendora is a demo eCommerce web application showcasing basic features for both 
 
 **Admin Credentials:**  
 - Email: `admin@example.com`  
-- Password: `password`  
+- Password: `password`
 
+## **Demo Video**
+https://drive.google.com/file/d/1yGxOFDG_MaU4yryNc1Jxx34WVxxee5cU/view?usp=sharing
 ---
 
 ## **Features**
